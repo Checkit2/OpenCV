@@ -107,12 +107,14 @@ while '' in text:
     text.remove('')
 
 
-x = ['.','-']
+x = ['.','-','|','__','_','`','~']
 
 for x in text:
     
     if len(x) == 1:
         text.remove(x)
+    
+
     
 
 print(text)
