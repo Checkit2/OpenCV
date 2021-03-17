@@ -128,12 +128,12 @@ def find_similar(search_for, dataset):
 
 
 dataset = [ "Appereance",
-            "color",
+            "Color",
             "Specifie Gravity",
             "PH",
             "Protein",
             "Glucose",
-            "Keton",
+            "Ketons",
             "Blood",
             "Bilirubin",
             "Urobilinogen",
@@ -144,11 +144,16 @@ dataset = [ "Appereance",
             "EC/Lpf",
             "Bacteria",
             "Casts",
-            "Mucous"]
+            "Mucous",
+            "Crystals",
+            "Blood(Hemoglobin)",
+            "Bacteria/hpf",
+            "Ep.Cells",
+            "Spore of fungi"]
 
 key_list = []
 value_list = []
-allowed_accurancy = 75
+allowed_accurancy = 50
 for i, t in enumerate(text):
     if i%2 == 0:
         word, accuracy = find_similar(t, dataset)
@@ -170,5 +175,9 @@ for item in key_list:
     c += 1
     ql.append(q)
 
+
+
 import json
 requestJson = json.dumps(ql)
+
+print(requestJson)
