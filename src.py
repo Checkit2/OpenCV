@@ -45,7 +45,7 @@ for block in sorted_blocks:
         prev_left += len(ln['text']) + added + 1
     text += '\n'
 
-    
+   
 keyword_list = ['Specific Gravity','Semi Turbid','Epithelial cells/Lpf','Amorphus urate Few','RBCih  pf','RBC/h p f','Ep Celis /h.p.f','Semi clear','Yeltow','Blood (Hemoglobin)','W.B.C    /h.p.f','R.B.C    —/h.p.f','R.B.C    /h.p.f','Ep.Cells /h.p.f','Bacteria /h.p.f','Crystals /h.p.f','Casts    /h.p.f','Mucus    /h.p.f','Spore of fungi','*Positive 2+']
 matching_list = ['SpecificGravity','SemiTurbid','EpithelialCells/Lpf','AmorphusUrateFew','RBCihPf','RBC/hpf','EpCelis/h.p.f','SemiClear','yellow','Blood(Hemoglobin)','W.B.C/h.p.f','R.B.C/h.p.f','R.B.C/h.p.f','Ep.Cells/h.p.f','Bacteria/h.p.f','Crystals/h.p.f','Casts/h.p.f','Mucus/h.p.f','SporeOfFungi','*Positive2+']
 for i,item in enumerate(keyword_list):
@@ -110,11 +110,65 @@ while '' in text:
 x = ['.','-','|','__','_','`','~']
 
 for x in text:
-    
     if len(x) == 1:
         text.remove(x)
-    
+
 
     
 
-print(text)
+def find_similar(search_for, dataset):
+    res = []
+    from rapidfuzz import fuzz
+    import operator
+    for data in dataset:
+        res.append(fuzz.ratio(search_for, data))
+    i, v = max(enumerate(res), key=operator.itemgetter(1))
+    yield dataset[i]
+    yield v
+
+
+dataset = [ "Appereance",
+            "color",
+            "Specifie Gravity",
+            "PH",
+            "Protein",
+            "Glucose",
+            "Keton",
+            "Blood",
+            "Bilirubin",
+            "Urobilinogen",
+            "Nitrite",
+            "RBC/hpf",
+            "WBC/hpf",
+            "Epithelial cells/Lpf",
+            "EC/Lpf",
+            "Bacteria",
+            "Casts",
+            "Mucous"]
+
+key_list = []
+value_list = []
+allowed_accurancy = 75
+for i, t in enumerate(text):
+    if i%2 == 0:
+        word, accuracy = find_similar(t, dataset)
+        if accuracy > allowed_accurancy:
+            text[i] = word
+            key_list.append(t)
+    else:
+        value_list.append(t)
+            
+
+
+ql = []
+c = 0
+for item in key_list:
+    q = {
+        "key":key_list[c],
+        "value":value_list[c]
+    }
+    c += 1
+    ql.append(q)
+
+import json
+requestJson = json.dumps(ql)
