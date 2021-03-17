@@ -46,17 +46,18 @@ for block in sorted_blocks:
     text += '\n'
 
    
-keyword_list = ['Specific Gravity','Semi Turbid','Epithelial cells/Lpf','Amorphus urate Few','RBCih  pf','RBC/h p f','Ep Celis /h.p.f','Semi clear','Yeltow','Blood (Hemoglobin)','W.B.C    /h.p.f','R.B.C    —/h.p.f','R.B.C    /h.p.f','Ep.Cells /h.p.f','Bacteria /h.p.f','Crystals /h.p.f','Casts    /h.p.f','Mucus    /h.p.f','Spore of fungi','*Positive 2+']
-matching_list = ['SpecificGravity','SemiTurbid','EpithelialCells/Lpf','AmorphusUrateFew','RBCihPf','RBC/hpf','EpCelis/h.p.f','SemiClear','yellow','Blood(Hemoglobin)','W.B.C/h.p.f','R.B.C/h.p.f','R.B.C/h.p.f','Ep.Cells/h.p.f','Bacteria/h.p.f','Crystals/h.p.f','Casts/h.p.f','Mucus/h.p.f','SporeOfFungi','*Positive2+']
+keyword_list = ['Specific Gravity','Semi Turbid','Epithelial cells/Lpf','Amorphus urate Few','RBCih  pf','RBC/h p f','Ep Celis /h.p.f','Semi clear','Yeltow','Blood (Hemoglobin)','W.B.C    /h.p.f','R.B.C    —/h.p.f','R.B.C    /h.p.f','Ep.Cells /h.p.f','Bacteria /h.p.f','Crystals /h.p.f','Casts    /h.p.f','Mucus    /h.p.f','Spore of fungi','*Positive 2+','RBCihPf','WECih.pt']
+matching_list = ['SpecificGravity','SemiTurbid','EpithelialCells/Lpf','AmorphusUrateFew','RBCihPf','RBC/hpf','EpCelis/h.p.f','SemiClear','yellow','Blood(Hemoglobin)','W.B.C/h.p.f','R.B.C/h.p.f','R.B.C/h.p.f','Ep.Cells/h.p.f','Bacteria/h.p.f','Crystals/h.p.f','Casts/h.p.f','Mucus/h.p.f','SporeOfFungi','*Positive2+','RBC/h.p.f','WBC/h.p.f']
 for i,item in enumerate(keyword_list):
     if item in text:
         text = text.replace(item , matching_list[i])
     
 
-
-
-text = (text.split())
 # print(text)
+# exit(0)
+text = (text.split())
+
+
 
 
 bad_chars = ["`",
@@ -110,11 +111,11 @@ while '' in text:
 x = ['.','-','|','__','_','`','~']
 
 for x in text:
-    if len(x) == 1:
+    if len(x) == 1 and not x.isdigit():
         text.remove(x)
 
-
-    
+# print(text)
+# exit(0)
 
 def find_similar(search_for, dataset):
     res = []
@@ -126,6 +127,8 @@ def find_similar(search_for, dataset):
     yield dataset[i]
     yield v
 
+# print(text)
+# exit(0)
 
 dataset = [ "Appereance",
             "Color",
@@ -149,11 +152,23 @@ dataset = [ "Appereance",
             "Blood(Hemoglobin)",
             "Bacteria/hpf",
             "Ep.Cells",
-            "Spore of fungi"]
+            "Spore of fungi",
+            "Negative",
+            "Pos(+)",
+            "Positive",
+            "(Few)",
+            "Few",
+            "WBC/h.p.f",
+            "RBC/h.p.f",
+            "Ep Cells/ h.p.f",
+            "Ep Cells/h.p.f",
+            "pH",
+            "WBC/ h.p.f",
+            "RBC/ h.p.f"]
 
 key_list = []
 value_list = []
-allowed_accurancy = 50
+allowed_accurancy = 75
 for i, t in enumerate(text):
     if i%2 == 0:
         word, accuracy = find_similar(t, dataset)
@@ -162,9 +177,11 @@ for i, t in enumerate(text):
             key_list.append(t)
     else:
         value_list.append(t)
-            
 
-
+# print(key_list)
+# print(value_list)
+# exit(0)
+        
 ql = []
 c = 0
 for item in key_list:
@@ -174,8 +191,10 @@ for item in key_list:
     }
     c += 1
     ql.append(q)
+    
 
-
+# print(len(key_list))
+# print(len(value_list))    
 
 import json
 requestJson = json.dumps(ql)
