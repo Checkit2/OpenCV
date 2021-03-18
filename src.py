@@ -5,7 +5,8 @@ import pandas as pd
 
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
-img = cv2.imread("6.jpg")
+img = cv2.imread("4.jpg")
+# img = cv2.resize(img,(600,210))
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 thresh = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
 
@@ -46,8 +47,8 @@ for block in sorted_blocks:
     text += '\n'
 
    
-keyword_list = ['Specific Gravity','Semi Turbid','Epithelial cells/Lpf','Amorphus urate Few','RBCih  pf','RBC/h p f','Ep Celis /h.p.f','Semi clear','Yeltow','Blood (Hemoglobin)','W.B.C    /h.p.f','R.B.C    —/h.p.f','R.B.C    /h.p.f','Ep.Cells /h.p.f','Bacteria /h.p.f','Crystals /h.p.f','Casts    /h.p.f','Mucus    /h.p.f','Spore of fungi','*Positive 2+','RBCihPf','WECih.pt']
-matching_list = ['SpecificGravity','SemiTurbid','EpithelialCells/Lpf','AmorphusUrateFew','RBCihPf','RBC/hpf','EpCelis/h.p.f','SemiClear','yellow','Blood(Hemoglobin)','W.B.C/h.p.f','R.B.C/h.p.f','R.B.C/h.p.f','Ep.Cells/h.p.f','Bacteria/h.p.f','Crystals/h.p.f','Casts/h.p.f','Mucus/h.p.f','SporeOfFungi','*Positive2+','RBC/h.p.f','WBC/h.p.f']
+keyword_list = ['Specific Gravity','Semi Turbid','Epithelial cells/Lpf','Amorphus urate Few','RBCih  pf','RBC/h p f','Ep Celis /h.p.f','Semi clear','Yeltow','Blood (Hemoglobin)','W.B.C    /h.p.f','R.B.C    —/h.p.f','R.B.C    /h.p.f','Ep.Cells /h.p.f','Bacteria /h.p.f','Crystals /h.p.f','Casts    /h.p.f','Mucus    /h.p.f','Spore of fungi','*Positive 2+','RBCihPf','WECih.pt',"WBCthpr","RBCApfe","Yeutow"]
+matching_list = ['SpecificGravity','SemiTurbid','EpithelialCells/Lpf','AmorphusUrateFew','RBCihPf','RBC/hpf','EpCelis/h.p.f','SemiClear','yellow','Blood(Hemoglobin)','W.B.C/h.p.f','R.B.C/h.p.f','R.B.C/h.p.f','Ep.Cells/h.p.f','Bacteria/h.p.f','Crystals/h.p.f','Casts/h.p.f','Mucus/h.p.f','SporeOfFungi','*Positive2+','RBC/h.p.f','WBC/h.p.f',"WBC/hpf","RBC/hpf","Yellow"]
 for i,item in enumerate(keyword_list):
     if item in text:
         text = text.replace(item , matching_list[i])
@@ -92,7 +93,9 @@ bad_chars = ["`",
             "Sfacroscopy",
             "Macroscopic",
             "Microscopic",
-            "eS"]
+            "eS",
+            "Micrnscopy",
+            "‘"]
 
 
 for v,x in enumerate(text):
@@ -108,11 +111,12 @@ while '' in text:
     text.remove('')
 
 
-x = ['.','-','|','__','_','`','~']
+x = ['.','-','|','__','_','`','~','.-','-.']
 
 for x in text:
     if len(x) == 1 and not x.isdigit():
         text.remove(x)
+
 
 # print(text)
 # exit(0)
@@ -164,7 +168,13 @@ dataset = [ "Appereance",
             "Ep Cells/h.p.f",
             "pH",
             "WBC/ h.p.f",
-            "RBC/ h.p.f"]
+            "RBC/ h.p.f",
+            "Nitrite",
+            "R.B.C/h.p.f",
+            "W.B.C/h.p.f",
+            "Ep.Cells/ h.p.f",
+            "yellow",
+            "Yellow"]
 
 key_list = []
 value_list = []
