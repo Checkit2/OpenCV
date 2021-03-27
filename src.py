@@ -121,7 +121,7 @@ def bad_words(text):
     
     return text
 
-# def find_similar(search_for, dataset):
+def find_similar(search_for, dataset):
     res = []
     from rapidfuzz import fuzz
     import operator
@@ -225,9 +225,9 @@ def send(text):
 
 
 text = process('test-crop.jpg')
-check_words(text)
-bad_words(text)
-find_similar()
-datasetes()
-keys()
-send()
+text = check_words(text)
+text = bad_words(text)
+text = find_similar(text)
+text = datasetes(text)
+text = keys(text)
+send(text)
