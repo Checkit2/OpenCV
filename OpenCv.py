@@ -4,13 +4,20 @@ from pytesseract import Output
 import pandas as pd
 
 class OpenCv:
-    def __init__(self, url):
-        self.image_url = url
-        self.image_path = self.download(url = url)
+    def __init__(self, url = None):
+        if url is not None:
+            self.image_url = url
+            self.image_path = self.download(url = url)
+        self.image_url = None
+        self.image_path = None
 
-    def process(self, image_path = None):
+    def process(self, image_path = None, image_url = None):
         if image_path is None:
             image_path = self.image_path
+        if image_url is not None:
+            self.image_path = self.download(url = image_url, keep = False)
+            image_path = self.image_path
+
         img = cv2.imread(image_path)
         
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -56,11 +63,10 @@ class OpenCv:
         self.bad_words()
         self.datasetes()
         self.keys()
-        self.send()
-        return text
+        return self.send()
 
         
-    def download(self, url = None):
+    def download(self, url = None, keep = False):
         if url is None:
             url = self.url
         import os
