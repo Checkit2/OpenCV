@@ -249,4 +249,4 @@ class OpenCv:
         yield self.value_list
     
     def analysis(self, keys, values):
-        pass
+        return "This"
