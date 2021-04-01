@@ -242,6 +242,11 @@ class OpenCv:
         self.json_ready = ql
 
     def send(self):
-        import json
-        requestJson = json.dumps(self.json_ready)
-        print(requestJson)
+        # import json
+        # requestJson = json.dumps(self.json_ready)
+        # print(requestJson)
+        yield self.key_list
+        yield self.value_list
+    
+    def analysis(self, keys, values):
+        pass
