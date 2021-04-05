@@ -58,6 +58,7 @@ class OpenCv:
                 text += ln['text'] + ' '
                 prev_left += len(ln['text']) + added + 1
             text += '\n'
+        
         self.result = text
         self.check_words()
         self.bad_words()
@@ -85,15 +86,15 @@ class OpenCv:
         return f_name
 
     def check_words(self):
-        text = (self.result.split())
+        text = self.result
         # # Removeing words for unknown reasons
 
-        # keyword_list = ['Specific Gravity','Semi Turbid','Epithelial cells/Lpf','Amorphus urate Few','RBCih  pf','RBC/h p f','Ep Celis /h.p.f','Semi clear','Yeltow','Blood (Hemoglobin)','W.B.C    /h.p.f','R.B.C    —/h.p.f','R.B.C    /h.p.f','Ep.Cells /h.p.f','Bacteria /h.p.f','Crystals /h.p.f','Casts    /h.p.f','Mucus    /h.p.f','Spore of fungi','*Positive 2+','RBCihPf','WECih.pt',"WBCthpr","RBCApfe","Yeutow","Giucose"]
-        # matching_list = ['SpecificGravity','SemiTurbid','EpithelialCells/Lpf','AmorphusUrateFew','RBCihPf','RBC/hpf','EpCelis/h.p.f','SemiClear','yellow','Blood(Hemoglobin)','W.B.C/h.p.f','R.B.C/h.p.f','R.B.C/h.p.f','Ep.Cells/h.p.f','Bacteria/h.p.f','Crystals/h.p.f','Casts/h.p.f','Mucus/h.p.f','SporeOfFungi','*Positive2+','RBC/h.p.f','WBC/h.p.f',"WBC/hpf","RBC/hpf","Yellow","Glucose"]
-        # for i,item in enumerate(keyword_list):
-        #     if item in text:
-        #         text = item.replace(item , matching_list[i])
-        self.result = text
+        keyword_list = ['Specific Gravity','Semi Turbid','Epithelial cells/Lpf','Amorphus urate Few','RBCih  pf','RBC/h p f','Ep Celis /h.p.f','Semi clear','Yeltow','Blood (Hemoglobin)','W.B.C    /h.p.f','R.B.C    —/h.p.f','R.B.C    /h.p.f','Ep.Cells /h.p.f','Bacteria /h.p.f','Crystals /h.p.f','Casts    /h.p.f','Mucus    /h.p.f','Spore of fungi','*Positive 2+','RBCihPf','WECih.pt',"WBCthpr","RBCApfe","Yeutow","Giucose", "Yeltow"]
+        matching_list = ['SpecificGravity','SemiTurbid','EpithelialCells/Lpf','AmorphusUrateFew','RBCihPf','RBC/hpf','EpCelis/h.p.f','SemiClear','yellow','Blood(Hemoglobin)','W.B.C/h.p.f','R.B.C/h.p.f','R.B.C/h.p.f','Ep.Cells/h.p.f','Bacteria/h.p.f','Crystals/h.p.f','Casts/h.p.f','Mucus/h.p.f','SporeOfFungi','*Positive2+','RBC/h.p.f','WBC/h.p.f',"WBC/hpf","RBC/hpf","Yellow","Glucose"]
+        for i,item in enumerate(keyword_list):
+            if item in text:
+                text = text.replace(item , matching_list[i])
+        self.result = (text.split())
         return text
         
     def bad_words(self):
@@ -245,8 +246,175 @@ class OpenCv:
         # import json
         # requestJson = json.dumps(self.json_ready)
         # print(requestJson)
+        
         yield self.key_list
         yield self.value_list
     
     def analysis(self, keys, values):
-        return "This"
+        value = values
+        explain = ""
+        for i,item in enumerate(keys):
+            if item == 'Color':
+                if value[i] == 'Yellow':
+                    explain += 'رنگ ادرار مشکلی ندارد'
+                    explain += '\n\r'
+                    continue
+                if value[i] == 'Lightyellow':
+                    explain += ' رنگ ادرار مشکلی ندارد اما بهتر است به پزشک مراجعه کنید'
+                    explain += '\n\r'
+                    continue
+                if value[i] == 'Darkyellow':
+                    explain += ' رنگ ادرار مشکلی ندارد اما بهتر است به پزشک مراجعه کنید'
+                    explain += '\n\r'
+                    continue
+                if value[i] == 'Red':
+                    explain += ' در ادرار شما خون مشاهده شده است لطفا به پزشک مراجعه فرمایید'
+                    explain += '\n\r'
+                    continue
+                if value[i] == 'Orange':
+                    explain += ' در ادرار شما کمی مشک در کلیه شما مشاهده شده است لطفا به پزشک مراجعه کنید'
+                    explain += '\n\r'
+                    continue
+                if value[i] == 'Dark' or 'Black':
+                    explain += ' در ادرار شما کمی مشک در کلیه شما مشاهده شده است لطفا به پزشک مراجعه کنید'
+                    explain += '\n\r'
+                    continue                        
+                if value[i] == 'White':
+                    explain += ' در ادرار شما چرک مشاهده شده است لطفا به پزشک مراجعه کنید'
+                    explain += '\n\r'
+                    continue
+                if value[i] == 'Blue':
+                    explain += ' در ادرار شما عفونت سودومونایی مشاهده شده است لطفا به پزشک مراجعه کنید'
+                    explain += '\n\r'
+                    continue
+                if value[i] == 'Green':
+                    explain += ' در ادرار شما عفونت سودومونایی مشاهده شده است لطفا به پزشک مراجعه کنید'
+                    explain += '\n\r'
+                    continue
+                if value[i] == 'Brown':
+                    explain += ' در ادرار شما نشانه هایی از کم آبی وجود دارد '
+                    explain += '\n\r'
+                    continue
+                if value[i] == 'Paleyellow':
+                   explain += ' در ادرار شما رنگدانه اوروکروم مشاهده شده است لطفا به پزشک مراجعه کنید '
+                   explain += '\n\r'
+                   continue
+            if item == 'Appereance':
+                if value[i] == 'clear' or 'Clear':
+                    explain += ' شفافیت ادرار شما خوب است '
+                    explain += '\n\r'
+                    continue
+                if value[i] == 'SemiClear':
+                    explain += ' شفافیت ادرار شما خوب است '
+                    explain += '\n\r'
+                    continue
+                if value[i] == 'Turbid':
+                    explain += ' ادرار شما شفاف نیست لطفا به دکتر مراجعه فرمایید '
+                    explain += '\n\r'
+                    continue
+                if value[i] == 'SemiTurbid':
+                    explain += ' ادرار شما تقریبا شفاف نیست لطفا به دکتر مراجعه فرمایید '
+                    explain += '\n\r'
+                    continue
+                if value[i] == 'Cloudy' or 'cloudy':
+                    explain += ' ادرار شما شفاف نیست لطفا به دکتر مراجعه فرمایید '
+                    explain += '\n\r'
+                    continue
+            if item == 'SpecificGravity' or 'specificgravity':
+                if value[i] == '1005' and value[i] < '1025' or value[i] == '1025':
+                   explain += ' وزن ادرار شما مشکلی ندارد '
+                   explain += '\n\r'
+                   continue
+                else:
+                    explain = ' وزن ادرار شما طبیعی نیست ، لطفا به پزشک مراجعه کنید '
+            if item == 'PH' or 'pH':
+                if value[i] == '4.5' or value[i] < '8' or value[i] == '8':
+                    explain += ' اسید در ادرار شما نرمال است '
+                    explain += '\n\r'
+                    continue
+                elif value[i] > '8':
+                    explain += ' اسید در ادرار شما طبیعی نیست ، لطفا به پزشک مراجعه فرمایید '
+                    explain += '\n\r'
+                    continue
+            if item == 'Protein':
+                if value[i] == 'Negative':
+                    explain += ' پروتئین در ادرار شما معمولی است '
+                    explain += '\n\r'
+                    continue
+                elif value[i] >'Pos(+)' or 'Positive':
+                    explain += ' پروتئین در ادرار شما طبیعی نیست ، لطفا به پزشک مراجعه کنید '
+                    explain += '\n\r'
+                    continue
+            if item == 'Glucose':
+                if value[i] == 'Negative':
+                    explain += ' قند دفع شده در ادرار شما طبیعی است '
+                    explain += '\n\r'
+                    continue
+                elif value[i] >'Pos(+)' or 'Positive':
+                    explain += ' قند دفع شده در ادرار شما طبیعی نیست ، لطفا به پزشک مراجعه کنید'
+                    explain += '\n\r'
+                    continue
+            if item == 'Keton' or 'Ketone':
+                if value[i] == 'Negative':
+                    explain += ' دفع کربوهیدرات در ادرار شما طبیعی است '
+                    explain += '\n\r'
+                    continue
+                elif value[i] >'Pos(+)' or 'Positive':
+                    explain += ' دفع کربوهیدرات در ادرار شما طبیعی نیست ، لطفا به پزشک مراجعه کنید '
+                    explain += '\n\r'
+                    continue
+            if item == 'Blood':
+                if value[i] == 'Negative':
+                   explain += ' در ادرار شما خونی مشاهده نشده است و این وضعیت نرمال است '
+                   explain += '\n\r'
+                   continue
+                elif value[i] >'Pos(+)' or 'Positive':
+                    explain += ' در ادرار شما مقداری خون مشاهده شده است ، لطفا به پزشک مراجعه کنید '
+                    explain += '\n\r'
+                    continue
+            if item == 'Bilirubin':
+                if value[i] == 'Negative':
+                    explain += ' مقدار بیلی روبین در ادرار شما طبیعی است و مشکل کلیوی از سمت ادرار شما یافت نشده است '
+                    explain += '\n\r'
+                    continue
+                elif value[i] >'Pos(+)' or 'Positive':
+                    explain += ' مقدار بیلی روبین در ادرار شما طبیعی نیست و شاید مشکل کلیوی از سمت ادرار وجود داشته باشد ، لطفا به پزشک مراجعه کنید '
+                    explain += '\n\r'
+                    continue
+            if item == 'Urobilinogen':
+                if value[i] == 'Negative':
+                    explain += ' اوروبیلینوژن در ادرار شما طبیعی است و محلول های مضر دفع شده اند و به کلیه شما آسیبی نمیزنند '
+                    explain += '\n\r'
+                    continue
+                elif value[i] >'Pos(+)' or 'Positive':
+                    explain += ' اوروبیلینوژن در ادرار شما طبیعی نیست و محلول های مضر ممکن است برای شما مشکل کلیوی ایجاد کنند ، لطفا به پزشک مراجعه کنید '
+                    explain += '\n\r'
+                    continue
+            if item == 'Nitrite':
+                if value[i] == 'Negative':
+                    explain += ' مقدار نیتریت ادرار شما طبیعی است و باکتری مضری در ادرار شما یافت نشد '
+                    explain += '\n\r'
+                    continue
+                elif value[i] >'Pos(+)' or 'Positive':
+                    explain += 'مقدار نیتریت ادرار شما طبیعی نیست و مقداری باکتری مضر در ادرار شما یافت شده است ، لطفا به پزشک مراجعه کنید'
+                    explain += '\n\r'
+                    continue
+            if item =='Bacteria':
+                if value[i] == '(Few)' or 'Few' or 'None':
+                    explain += ' باکتری مضری در ادرار شما یافت نشد '
+                    explain += '\n\r'
+                    continue
+                else:
+                    explain += ' مقداری باکتری مضر در ادرار شما یافت شده است ، لطفا به پزشک مراجعه کنید '
+                    explain += '\n\r'
+                    continue
+            if item =='Mucous' or 'Mucus':
+                if value[i] == '(Few)' or 'Few' or 'None':
+                    explain += ' التهاباتی در دستگاه ادراری شما یافت نشد '
+                    explain += '\n\r'
+                    continue
+                else:
+                    explain += ' التهاباتی در دستگاه ادراری شما یافت شده است لطفا به پزشک مراجعه کنید '
+                    explain += '\n\r'
+                    continue
+        return explain
